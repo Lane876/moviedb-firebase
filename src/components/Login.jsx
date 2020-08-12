@@ -1,19 +1,40 @@
-import React from "react";
+import React, { useState } from "react";
 import { Paper, Typography, TextField, Button } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import google from "../images/google.png";
 import FacebookIcon from "@material-ui/icons/Facebook";
-import { useForm } from "react-hook-form";
+import app from "firebase";
 
 const Login = () => {
-    const {register, errors, handleSubmit} = useForm()
+  const auth = app.auth();
+  const history = useHistory();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-
-
-
-    function onSubmit(data){
-        console.log(data);
+  const login = async () => {
+    try {
+      const newUser = await auth.signInWithEmailAndPassword(email, password);
+      // console.log(newUser);
+      history.push("/");
+    } catch (error) {
+      console.log(error.message);
     }
+  };
+  const resetPassword = async () => {
+    await auth.sendPasswordResetEmail(email);
+    alert("Check your email for password reset");
+  };
+
+  function handleEmail(e) {
+    setEmail(e.target.value);
+  }
+  function handlePassword(e) {
+    setPassword(e.target.value);
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+  }
   return (
     <div style={{ marginTop: "2rem" }}>
       <Paper
@@ -33,37 +54,47 @@ const Login = () => {
             color: "gray",
           }}
         >
-          Sing In
+          Sign In
         </Typography>
-        <form onSubmit={handleSubmit(onSubmit)} style={{ display: "flex", flexDirection: "column" }}>
+        <form
+          onSubmit={handleSubmit}
+          style={{ display: "flex", flexDirection: "column" }}
+        >
           <TextField
             autoComplete="off"
             label="email"
             variant="outlined"
             type="email"
             name="email"
+            value={email}
+            onChange={handleEmail}
             required
             style={{ marginTop: "1rem" }}
-            inputRef={register({required:true})}
           />
-          {errors.email && <Typography color="secondary">Invalid email</Typography>}
+          {/* {errors.email && (
+            <Typography color="secondary">Invalid email</Typography>
+          )} */}
           <TextField
             autoComplete="off"
             label="password"
             variant="outlined"
             type="password"
             name="password"
+            value={password}
+            onChange={handlePassword}
             required
             style={{ marginTop: "1rem" }}
-            inputRef={register({required:true})}
           />
-          {errors.password && <Typography color="secondary">Invalid password</Typography>}
+          {/* {errors.password && (
+            <Typography color="secondary">Invalid password</Typography>
+          )} */}
 
           <Button
             type="submit"
             variant="contained"
             color="primary"
-            style={{ marginTop: "1rem", marginBottom:"1rem" }}
+            style={{ marginTop: "1rem", marginBottom: "1rem" }}
+            onClick={login}
           >
             Sign in
           </Button>
@@ -77,6 +108,7 @@ const Login = () => {
                 color: "#3f51b5",
                 fontWeight: "600",
               }}
+              onClick={resetPassword}
             >
               Forgot password?
             </Link>
@@ -119,7 +151,7 @@ const Login = () => {
         }}
       >
         <Button variant="outlined" style={{ width: "250px", margin: ".5rem" }}>
-          <img src={google} alt='google account icon' width="23px" />
+          <img src={google} alt="google account icon" width="23px" />
         </Button>
         <Button variant="outlined" style={{ width: "250px", margin: ".5rem" }}>
           <FacebookIcon style={{ color: "#4267b2" }} />

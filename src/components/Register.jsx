@@ -1,33 +1,46 @@
 import React, { useState } from "react";
 import { Paper, Typography, TextField, Button } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import google from "../images/google.png";
 import FacebookIcon from "@material-ui/icons/Facebook";
-
-
-
+import firebase from "firebase";
+import app from "../firebase";
 
 const Register = () => {
-  const initialState = {
-    name: "",
-    email: "",
-    password: "",
-  };
-  const [user, setUser] = useState(initialState);
+  const auth = app.auth();
+  const history = useHistory();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  function handleChange(e) {
-    let { name, value } = e.target;
-    setUser({
-      ...user,
-      [name]: value,
-    });
-  }
+  const registerUser = async (e) => {
+    try {
+      const newUser = await auth.createUserWithEmailAndPassword(
+        email,
+        password
+      );
+      history.push("/");
+      return await newUser.user.updateProfile({
+        displayName: name,
+      });
+    } catch (error) {
+      alert(e.message);
+    }
+  };
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log(user);
   }
 
+  function handleChangeName(e) {
+    setName(e.target.value);
+  }
+  function handleChangeEmail(e) {
+    setEmail(e.target.value);
+  }
+  function handleChangePassword(e) {
+    setPassword(e.target.value);
+  }
 
   return (
     <div style={{ marginTop: "2rem" }}>
@@ -58,9 +71,9 @@ const Register = () => {
             label="name"
             variant="outlined"
             type="name"
-            value={user.name}
+            value={name}
             name="name"
-            onChange={handleChange}
+            onChange={handleChangeName}
             required
             style={{ marginTop: "1rem" }}
           />
@@ -70,11 +83,11 @@ const Register = () => {
             label="email"
             variant="outlined"
             type="email"
-            value={user.email}
+            value={email}
             name="email"
             required
             style={{ marginTop: "1rem" }}
-            onChange={handleChange}
+            onChange={handleChangeEmail}
           />
           {/* {errors.email && <Typography color="secondary">Invalid email</Typography>} */}
 
@@ -82,11 +95,11 @@ const Register = () => {
             label="password"
             variant="outlined"
             type="password"
-            value={user.password}
+            value={password}
             name="password"
             required
             style={{ marginTop: "1rem" }}
-            onChange={handleChange}
+            onChange={handleChangePassword}
           />
           {/* {errors.password && <Typography color="secondary">Password must be at least 6 characters long</Typography>} */}
 
@@ -95,7 +108,7 @@ const Register = () => {
             variant="contained"
             color="primary"
             style={{ marginBottom: "1rem", marginTop: "2rem" }}
-            // onClick={register}
+            onClick={registerUser}
           >
             Sign Up
           </Button>
