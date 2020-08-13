@@ -5,7 +5,6 @@ import app from "firebase";
 import logo from "../images/logo.png";
 
 const Header = ({ user }) => {
-  console.log(user);
   const history = useHistory();
   const auth = app.auth();
   const logout = async () => {
@@ -17,7 +16,7 @@ const Header = ({ user }) => {
     <AppBar
       style={{
         position: "sticky",
-        // backgroundColor: "#f4f4f4",
+        backgroundColor: "#f4f4f4",
         padding: ".5rem",
       }}
       color="primary"
@@ -26,22 +25,25 @@ const Header = ({ user }) => {
         style={{
           display: "flex",
           justifyContent: "space-between",
+          flexWrap: "wrap",
           alignItems: "center",
           marginLeft: "2rem",
           marginRight: "2rem",
         }}
       >
         <Link to="/">
-          <img src={logo} width="30px" alt="logo" />
+          <img src={logo} width="35px" alt="logo" />
         </Link>
         <div style={{ display: "flex", alignItems: "center" }}>
           {user.user === null ? null : (
-            <Typography>Hello, {user?.user?.displayName}</Typography>
+            <Typography style={{ color: "black" }}>
+              Hello, {user?.user?.displayName}
+            </Typography>
           )}
 
           <Button
             onClick={logout}
-            style={{ color: "#ffff", fontWeight: "600", marginLeft: "1rem" }}
+            style={{ fontWeight: "600", marginLeft: "1rem" }}
           >
             {user.user === null ? "Sign In" : "Sign Out"}
           </Button>

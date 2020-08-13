@@ -9,12 +9,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import app from "./firebase";
 import { getUser } from "./redux/userActions";
+import MovieDetailPage from "./components/MovieDetailPage";
 
 function App() {
   const auth = app.auth();
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  console.log(user.user?.displayName);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
@@ -37,6 +37,7 @@ function App() {
       </Switch>
       <Route path="/login" component={Login} />
       <Route path="/register" component={Register} />
+      <Route path="/movie/:movieId" component={MovieDetailPage} />
     </BrowserRouter>
   );
 }
