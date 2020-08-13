@@ -54,7 +54,7 @@ const Home = () => {
           {movies &&
             movies.map((movie, index) => (
               <React.Fragment key={index}>
-                <GridPart
+                <GridPart id="#down"
                   image={
                     movie.poster_path && `${IMAGE_URL}w500${movie.poster_path}`
                   }

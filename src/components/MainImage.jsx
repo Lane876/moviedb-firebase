@@ -11,7 +11,7 @@ const MainImage = ({ image, title, text }) => {
             100%),
         url('${image}')`,
         // backgroundRepeat: "no-repeat",
-        height: "600px",
+        height: "100vh",
         backgroundSize: "cover",
         backgroundPosition: "center",
         width: "100%",
@@ -23,7 +23,7 @@ const MainImage = ({ image, title, text }) => {
           style={{
             position: "absolute",
             maxWidth: "500px",
-            bottom: "2rem",
+            bottom: "4rem",
             marginLeft: "2rem",
           }}
         >
