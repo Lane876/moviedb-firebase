@@ -12,8 +12,9 @@ const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState("");
 
-  const registerUser = async (e) => {
+  const registerUser = async () => {
     try {
       const newUser = await auth.createUserWithEmailAndPassword(
         email,
@@ -24,8 +25,20 @@ const Register = () => {
         displayName: name,
       });
     } catch (error) {
-      alert(e.message);
+      setErrors(error.message);
     }
+  };
+
+  const provider = new firebase.auth.GoogleAuthProvider();
+  const authWithGoogle = async () => {
+    await firebase.auth().signInWithPopup(provider);
+    history.push("/");
+  };
+
+  const fbprovider = new firebase.auth.FacebookAuthProvider();
+  const authWithFacebook = async () => {
+    await firebase.auth().signInWithPopup(fbprovider);
+    history.push("/");
   };
 
   function handleSubmit(e) {
@@ -77,7 +90,6 @@ const Register = () => {
             required
             style={{ marginTop: "1rem" }}
           />
-          {/* {errors.name && <Typography color="secondary">Name must be at least 3 characters long</Typography>} */}
 
           <TextField
             label="email"
@@ -89,7 +101,6 @@ const Register = () => {
             style={{ marginTop: "1rem" }}
             onChange={handleChangeEmail}
           />
-          {/* {errors.email && <Typography color="secondary">Invalid email</Typography>} */}
 
           <TextField
             label="password"
@@ -101,7 +112,7 @@ const Register = () => {
             style={{ marginTop: "1rem" }}
             onChange={handleChangePassword}
           />
-          {/* {errors.password && <Typography color="secondary">Password must be at least 6 characters long</Typography>} */}
+          {errors && <Typography color="secondary">{errors}</Typography>}
 
           <Button
             type="submit"
@@ -151,10 +162,18 @@ const Register = () => {
           justifyContent: "space-between",
         }}
       >
-        <Button variant="outlined" style={{ width: "250px", margin: ".5rem" }}>
+        <Button
+          variant="outlined"
+          style={{ width: "250px", margin: ".5rem" }}
+          onClick={authWithGoogle}
+        >
           <img src={google} alt="google account icon" width="23px" />
         </Button>
-        <Button variant="outlined" style={{ width: "250px", margin: ".5rem" }}>
+        <Button
+          variant="outlined"
+          style={{ width: "250px", margin: ".5rem" }}
+          onClick={authWithFacebook}
+        >
           <FacebookIcon style={{ color: "#4267b2" }} />
         </Button>
       </div>

@@ -27,7 +27,7 @@ function App() {
     return () => {
       unsubscribe();
     };
-  }, []);
+  }, [auth, dispatch]);
 
   return (
     <BrowserRouter>
