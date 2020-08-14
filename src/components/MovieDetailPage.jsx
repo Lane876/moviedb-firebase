@@ -15,6 +15,8 @@ const MovieDetailPage = (props) => {
   const [cast, setCast] = useState([]);
   const [toggleCast, setToggleCast] = useState(false);
 
+  const useruid = (user?.uid);
+
   useEffect(() => {
     fetch(`${API_URL}movie/${movieId}?api_key=${API_KEY}&language=en-US`)
       .then((response) => response.json())
@@ -44,7 +46,7 @@ const MovieDetailPage = (props) => {
       })
     );
 
-    db.collection("favorite").add({
+    db.collection(`${useruid}`).add({
       userId: user.uid,
       movieId: movieId,
       movieTitle: movies.original_title,

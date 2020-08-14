@@ -5,21 +5,30 @@ import { db } from "../firebase";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 
-const Favorite = ({ movies, movieId }) => {
+const Favorite = () => {
   const [favorites, setFavorites] = useState([]);
-  const favorite = useSelector((state) => state.favorite);
-  console.log(favorite);
+  const user = useSelector((state) => state.user.user);
+  const useruid = user?.uid;
+
 
   useEffect(() => {
-    db.collection("favorite").onSnapshot((snapshot) =>
-      setFavorites(snapshot.docs.map((doc) => doc.data()))
-    );
+    const fetchData = async () => {
+      const data = await db.collection(`${useruid}`).get();
+      setFavorites(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    };
+    fetchData();
   }, []);
+
+
+
 
   return (
     <div>
       {favorites.map((movie, i) => (
-        <p key={i}>{movie.movieTitle}</p>
+        <div key={i}>
+          <p>{movie.movieTitle}</p>
+          <button onClick={()=> db.collection(`${useruid}`).doc(movie.id).delete()}>delete</button>
+        </div>
       ))}
     </div>
   );

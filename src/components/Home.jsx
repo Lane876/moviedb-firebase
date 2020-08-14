@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { API_URL, API_KEY, IMAGE_URL } from "../config";
-import { Typography, Divider, Button } from "@material-ui/core";
+import { Typography, Button } from "@material-ui/core";
 import MainImage from "./MainImage";
 import GridPart from "./GridPart";
 
@@ -11,7 +11,7 @@ const Home = () => {
   useEffect(() => {
     const endPoint = `${API_URL}movie/popular?api_key=${API_KEY}&language=en-US&page=1`;
     fetchMovies(endPoint);
-  }, []);
+  }, [fetchMovies]);
 
   function fetchMovies(path) {
     fetch(path)
