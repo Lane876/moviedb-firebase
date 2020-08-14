@@ -1,8 +1,9 @@
 import React from "react";
 import { AppBar, Button, Typography } from "@material-ui/core";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, Route } from "react-router-dom";
 import app from "firebase";
 import logo from "../images/logo.png";
+import Favorite from "./Favorite";
 
 const Header = ({ user }) => {
   const history = useHistory();
@@ -35,6 +36,18 @@ const Header = ({ user }) => {
           <img src={logo} width="35px" alt="logo" />
         </Link>
         <div style={{ display: "flex", alignItems: "center" }}>
+          <Button style={{ fontWeight: "600" }}>
+            <Link
+              to="/favorite"
+              style={{
+                textDecoration: "none",
+                color: "black",
+                marginRight: "1rem",
+              }}
+            >
+              Favorite
+            </Link>
+          </Button>
           {user.user === null ? null : (
             <Typography style={{ color: "black" }}>
               Hello, {user?.user?.displayName}

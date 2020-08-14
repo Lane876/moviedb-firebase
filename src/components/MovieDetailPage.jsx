@@ -3,15 +3,19 @@ import { API_URL, API_KEY, IMAGE_URL, IMAGE_SIZE } from "../config";
 import { Button, Typography } from "@material-ui/core";
 import GridPart from "./GridPart";
 import MainImage from "./MainImage";
-import Favorite from "./Favorite";
+import { useSelector, useDispatch } from "react-redux";
+import { getFavorite } from "../redux/favorite/favoriteAction";
+import { db } from "../firebase";
 
 const MovieDetailPage = (props) => {
+  const user = useSelector((state) => state.user.user);
+  const dispatch = useDispatch();
+  const movieId = props.match.params.movieId;
   const [movies, setMovies] = useState([]);
   const [cast, setCast] = useState([]);
   const [toggleCast, setToggleCast] = useState(false);
 
   useEffect(() => {
-    const movieId = props.match.params.movieId;
     fetch(`${API_URL}movie/${movieId}?api_key=${API_KEY}&language=en-US`)
       .then((response) => response.json())
       .then((response) => {
@@ -28,6 +32,27 @@ const MovieDetailPage = (props) => {
   function hanldeCast() {
     setToggleCast(!toggleCast);
   }
+  const addToFavorite = () => {
+    dispatch(
+      getFavorite({
+        userId: user.uid,
+        movieId: movieId,
+        movieTitle: movies.original_title,
+        movieRuntime: movies.runtime,
+        movieImage: movies.backdrop_path,
+        favorite: true,
+      })
+    );
+
+    db.collection("favorite").add({
+      userId: user.uid,
+      movieId: movieId,
+      movieTitle: movies.original_title,
+      movieRuntime: movies.runtime,
+      movieImage: movies.backdrop_path,
+      favorite: true,
+    });
+  };
 
   return (
     <div>
@@ -40,7 +65,11 @@ const MovieDetailPage = (props) => {
       )}
 
       <div style={{ width: "85%", margin: "1rem auto" }}>
-        <Favorite />
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          <Button variant="contained" onClick={addToFavorite} type="button">
+            Add to favorite
+          </Button>
+        </div>
         <div>
           <p style={{ display: "flex", justifyContent: "flex-start" }}>
             {" "}

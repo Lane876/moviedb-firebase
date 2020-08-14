@@ -13,8 +13,6 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState("");
 
-  console.log(errors);
-
   const login = async () => {
     try {
       const newUser = await auth.signInWithEmailAndPassword(email, password);

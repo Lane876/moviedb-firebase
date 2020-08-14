@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import app from "./firebase";
 import { getUser } from "./redux/userActions";
 import MovieDetailPage from "./components/MovieDetailPage";
+import Favorite from "./components/Favorite";
 
 function App() {
   const auth = app.auth();
@@ -38,6 +39,7 @@ function App() {
       <Route path="/login" component={Login} />
       <Route path="/register" component={Register} />
       <Route path="/movie/:movieId" component={MovieDetailPage} />
+      <Route path="/favorite" component={Favorite} />
     </BrowserRouter>
   );
 }
