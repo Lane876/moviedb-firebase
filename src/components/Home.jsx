@@ -11,7 +11,7 @@ const Home = () => {
   useEffect(() => {
     const endPoint = `${API_URL}movie/popular?api_key=${API_KEY}&language=en-US&page=1`;
     fetchMovies(endPoint);
-  }, [fetchMovies]);
+  }, []);
 
   function fetchMovies(path) {
     fetch(path)

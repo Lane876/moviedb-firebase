@@ -12,22 +12,24 @@ const Favorite = () => {
 
 
   useEffect(() => {
-    const fetchData = async () => {
-      const data = await db.collection(`${useruid}`).get();
-      setFavorites(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    };
-    fetchData();
-  }, []);
+    db.collection(`${useruid}`).onSnapshot(snapshot=>{
+      setFavorites(snapshot.docs.map(doc=>({...doc.data(), id: doc.id})))
+    })
+    
+  }, [useruid]);
 
 
-
+  
+  const handleDelete = async (id) => {
+    await db.collection(`${useruid}`).doc(id).delete()
+  }
 
   return (
     <div>
       {favorites.map((movie, i) => (
         <div key={i}>
           <p>{movie.movieTitle}</p>
-          <button onClick={()=> db.collection(`${useruid}`).doc(movie.id).delete()}>delete</button>
+          <button onClick={()=> handleDelete(movie.id)}>delete</button>
         </div>
       ))}
     </div>
