@@ -15,8 +15,8 @@ const MovieDetailPage = (props) => {
   const [cast, setCast] = useState([]);
   const [toggleCast, setToggleCast] = useState(false);
   const useruid = user?.uid;
-  const [favorites, setFavorites] = useState([])
-  const [id, setId] = useState()
+  const [favorites, setFavorites] = useState([]);
+  const newtime = new Date().toLocaleString();
 
   useEffect(() => {
     fetch(`${API_URL}movie/${movieId}?api_key=${API_KEY}&language=en-US`)
@@ -30,7 +30,7 @@ const MovieDetailPage = (props) => {
             setCast(response.cast);
           });
       });
-  }, [props.match.params.movieId]);
+  }, [movieId]);
 
   function hanldeCast() {
     setToggleCast(!toggleCast);
@@ -48,25 +48,22 @@ const MovieDetailPage = (props) => {
       movieTitle: movies.original_title,
       movieRuntime: movies.runtime,
       movieImage: movies.backdrop_path,
-      favorite: true,
+      timestamp: newtime
     });
-   
   };
 
   useEffect(() => {
-    db.collection(`${useruid}`).onSnapshot(snapshot=>{
-      setFavorites(snapshot.docs.map(doc =>({...doc.data(), id: doc.id})))
-    })
-    
-    
+    db.collection(`${useruid}`).onSnapshot((snapshot) => {
+      setFavorites(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id})));
+    });
   }, [useruid]);
 
-  const removeFavorite = async (id) =>{
-    await db.collection(`${useruid}`).doc(id).delete()
-  }
+  const removeFavorite = async (id) => {
+    await db.collection(`${useruid}`).doc(id).delete();
+  };
 
-  const elementIndex = favorites.find(element=> element.movieId === movieId)
-  
+  const elementIndex = favorites.find((element) => element.movieId === movieId);
+
   return (
     <div>
       {movies && (
@@ -78,12 +75,23 @@ const MovieDetailPage = (props) => {
       )}
 
       <div style={{ width: "85%", margin: "1rem auto" }}>
-        {user && <div style={{ display: "flex", justifyContent: "flex-end" }}>
-            {elementIndex ?  <Button variant="contained" onClick={()=>removeFavorite(elementIndex?.id)} type="button">Remove from favorites</Button> :  <Button variant="contained" onClick={addToFavorite} type="button">Add to favorite</Button>}
-
-           
-          
-        </div>}
+        {user && (
+          <div style={{ display: "flex", justifyContent: "flex-end" }}>
+            {elementIndex ? (
+              <Button
+                variant="contained"
+                onClick={() => removeFavorite(elementIndex?.id)}
+                type="button"
+              >
+                Remove from favorites
+              </Button>
+            ) : (
+              <Button variant="contained" onClick={addToFavorite} type="button">
+                Add to favorite
+              </Button>
+            )}
+          </div>
+        )}
         <div>
           <p style={{ display: "flex", justifyContent: "flex-start" }}>
             {" "}

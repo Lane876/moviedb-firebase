@@ -15,7 +15,7 @@ const Login = () => {
 
   const login = async () => {
     try {
-      const newUser = await auth.signInWithEmailAndPassword(email, password);
+      await auth.signInWithEmailAndPassword(email, password);
       history.push("/");
     } catch (error) {
       setErrors(error.message);

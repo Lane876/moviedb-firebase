@@ -22,17 +22,17 @@ const MainImage = ({ image, title, text }) => {
         <div
           style={{
             position: "absolute",
-            maxWidth: "500px",
+            maxWidth: "900px",
             bottom: "4rem",
             marginLeft: "2rem",
           }}
         >
           <Typography
-            style={{ fontSize: "1.5rem", fontWeight: "700", color: "#fff" }}
+            style={{ fontSize: "2rem", fontWeight: "700", color: "#fff" }}
           >
             {title}
           </Typography>
-          <p style={{ fontSize: "1rem", fontWeight: "500", color: "#fff" }}>
+          <p style={{ fontSize: "1.5rem", fontWeight: "500", color: "#fff" }}>
             {text}
           </p>
         </div>
