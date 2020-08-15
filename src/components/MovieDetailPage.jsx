@@ -30,7 +30,7 @@ const MovieDetailPage = (props) => {
             setCast(response.cast);
           });
       });
-  }, [movieId]);
+  }, [props.match.params.movieId]);
 
   function hanldeCast() {
     setToggleCast(!toggleCast);
@@ -132,9 +132,11 @@ const MovieDetailPage = (props) => {
         >
           {cast &&
             cast.map((crew, index) => (
+              
               <React.Fragment key={index}>
                 {crew.profile_path && (
                   <GridPart
+                  crew={crew}
                     actor
                     image={`${IMAGE_URL}w500${crew.profile_path}`}
                   />
