@@ -3,6 +3,7 @@ import { AppBar, Button, Typography } from "@material-ui/core";
 import { Link, useHistory } from "react-router-dom";
 import app from "firebase";
 import logo from "../images/favicon.png";
+import Search from "./Search";
 
 const Header = ({ user }) => {
   const history = useHistory();
@@ -54,6 +55,7 @@ const Header = ({ user }) => {
             </Button>
           )}
         </div>
+        <Search />
         <div style={{ display: "flex", alignItems: "center" }}>
           {user.user === null ? null : (
             <Typography style={{ color: "black" }}>

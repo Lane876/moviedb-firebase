@@ -4,14 +4,17 @@ import { API_URL, API_KEY, IMAGE_URL } from "../config";
 import { Typography, Button } from "@material-ui/core";
 import MainImage from "./MainImage";
 import GridPart from "./GridPart";
+import { useSelector } from "react-redux";
 
 const Home = () => {
+  const result = useSelector((state) => state.results);
   const [movies, setMovies] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   useEffect(() => {
     const endPoint = `${API_URL}movie/popular?api_key=${API_KEY}&language=en-US&page=1`;
     fetchMovies(endPoint);
   }, []);
+  console.log(result);
 
   function fetchMovies(path) {
     fetch(path)

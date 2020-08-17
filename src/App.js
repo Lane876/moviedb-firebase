@@ -35,11 +35,11 @@ function App() {
       <Header user={user} />
       <Switch>
         <Route exact path="/" component={Home} />
+        <Route path="/login" component={Login} />
+        <Route path="/register" component={Register} />
+        <Route path="/movie/:movieId" component={MovieDetailPage} />
+        <Route path="/favorite" component={Favorite} />
       </Switch>
-      <Route path="/login" component={Login} />
-      <Route path="/register" component={Register} />
-      <Route path="/movie/:movieId" component={MovieDetailPage} />
-      <Route path="/favorite" component={Favorite} />
     </BrowserRouter>
   );
 }
