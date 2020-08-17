@@ -19,6 +19,7 @@ const Header = ({ user }) => {
         position: "sticky",
         backgroundColor: "#f4f4f4",
         padding: ".5rem",
+        
       }}
       color="primary"
     >
@@ -35,6 +36,7 @@ const Header = ({ user }) => {
         <div
           style={{
             display: "flex",
+            alignItems:"center"
           }}
         >
           <Link to="/">
@@ -54,8 +56,8 @@ const Header = ({ user }) => {
               </Link>
             </Button>
           )}
+          <Search />
         </div>
-        <Search />
         <div style={{ display: "flex", alignItems: "center" }}>
           {user.user === null ? null : (
             <Typography style={{ color: "black" }}>

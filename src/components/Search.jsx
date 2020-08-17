@@ -9,6 +9,7 @@ import {
   Paper,
   Typography,
   Modal,
+  TextField,
 } from "@material-ui/core";
 import { getResults } from "../redux/search/searchAction";
 import { useDispatch } from "react-redux";
@@ -28,51 +29,22 @@ const Search = () => {
     e.preventDefault();
     fetch(`${API_URL}search/movie/?api_key=${API_KEY}&query=${search}`)
       .then((response) => response.json())
-      .then((response) => setResult(response.results));
-
-    dispatch(getResults(result));
+      .then((response) =>dispatch(getResults(response.results))) 
   };
-
-  const handleOpen = (id) => {
-    setOpen(false);
-    history.push(`/movie/${id}`);
-    setSearch("");
-  };
-
-  console.log(open);
 
   return (
-    <div>
-      <input
+    <div style={{display:"flex", alignItems:"center"}}>
+      <TextField
+      variant='outlined'
         value={search}
         type="text"
         onChange={handleInput}
-        style={{ width: "500px" }}
+        style={{ maxWidth: "500px", padding:"1rem" }}
+        placeholder="search movie"
       />
       <Button type="submit" onClick={handleSearch} disabled={search.length < 3}>
         submit
       </Button>
-      {open && (
-        <div style={{ position: "absolute" }}>
-          {result.map((movie, index) => (
-            <Paper
-              key={index}
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "left",
-                padding: "0.3rem",
-                margin: "0.3rem",
-              }}
-              onClick={() => handleOpen(movie.id)}
-            >
-              <img src={`${IMAGE_URL}w200${movie.poster_path}`} width="50px" />
-              <Typography>{movie.original_title}</Typography>
-              <Typography>{movie.year}</Typography>
-            </Paper>
-          ))}
-        </div>
-      )}
     </div>
   );
 };
