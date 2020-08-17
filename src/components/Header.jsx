@@ -1,5 +1,5 @@
 import React from "react";
-import { AppBar, Button, Typography } from "@material-ui/core";
+import { AppBar, Button, Typography, Hidden } from "@material-ui/core";
 import { Link, useHistory } from "react-router-dom";
 import app from "firebase";
 import logo from "../images/favicon.png";
@@ -39,9 +39,9 @@ const Header = ({ user }) => {
             alignItems:"center"
           }}
         >
-          <Link to="/">
+          <a href='/'>
             <img src={logo} width="35px" alt="logo" />
-          </Link>
+            </a>
           {user.user === null ? null : (
             <Button style={{ fontWeight: "600", marginLeft: "2rem" }}>
               <Link
@@ -58,11 +58,14 @@ const Header = ({ user }) => {
           )}
           <Search />
         </div>
-        <div style={{ display: "flex", alignItems: "center" }}>
+        
+        <div  style={{ display: "flex", alignItems: "center" }}>
           {user.user === null ? null : (
+            <Hidden xsDown>
             <Typography style={{ color: "black" }}>
               Hello, {user?.user?.displayName}
             </Typography>
+            </Hidden>
           )}
 
           <Button

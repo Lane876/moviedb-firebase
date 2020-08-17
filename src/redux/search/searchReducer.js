@@ -2,6 +2,7 @@ import { GET_RESULTS } from "../types";
 
 const initialState = {
   result: [],
+  
 };
 
 const searchReducer = (state = initialState, action) => {
@@ -10,6 +11,7 @@ const searchReducer = (state = initialState, action) => {
       return {
         payload: action.payload,
       };
+    
 
     default:
       return state;
