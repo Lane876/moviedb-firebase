@@ -40,7 +40,7 @@ const Header = ({ user }) => {
           }}
           className="header"
         >
-          <a href="/">
+          <a href="/" style={{ marginLeft: "1rem", marginRight: "1rem" }}>
             <img src={logo} width="40px" alt="logo" />
           </a>
           {user.user === null ? null : (
