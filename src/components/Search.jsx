@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { API_URL, API_KEY } from "../config";
 
-import { Button, TextField, InputAdornment } from "@material-ui/core";
+import { TextField, InputAdornment } from "@material-ui/core";
 import { getResults } from "../redux/search/searchAction";
 import { handleList } from "../redux/handleOpen/listAction";
 import SearchIcon from "@material-ui/icons/Search";
@@ -30,8 +30,6 @@ const Search = () => {
     setSearch("");
     history.push("/");
   };
-
-  console.log(error);
 
   return (
     <div>
