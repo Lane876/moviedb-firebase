@@ -2,22 +2,19 @@ import React from "react";
 import { useState } from "react";
 import { API_URL, API_KEY } from "../config";
 
-import {
-  Button,
-  TextField,
-  InputAdornment,
-} from "@material-ui/core";
+import { Button, TextField, InputAdornment } from "@material-ui/core";
 import { getResults } from "../redux/search/searchAction";
-import {handleList} from '../redux/handleOpen/listAction'
-import SearchIcon from '@material-ui/icons/Search';
+import { handleList } from "../redux/handleOpen/listAction";
+import SearchIcon from "@material-ui/icons/Search";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 
 const Search = () => {
-  const history = useHistory()
+  const history = useHistory();
   const dispatch = useDispatch();
   const [search, setSearch] = useState("");
- 
+  const [error, setError] = useState("");
+
   const handleInput = (e) => {
     setSearch(e.target.value);
   };
@@ -26,29 +23,37 @@ const Search = () => {
     e.preventDefault();
     fetch(`${API_URL}search/movie/?api_key=${API_KEY}&query=${search}`)
       .then((response) => response.json())
-      .then((response) =>dispatch(getResults(response.results))) 
+      .then((response) => dispatch(getResults(response.results)))
+      .catch((error) => setError(error));
+    dispatch(handleList(true));
 
-      dispatch(handleList(true))
-      setSearch('')
+    setSearch("");
+    history.push("/");
   };
 
+  console.log(error);
+
   return (
-    <div style={{display:"flex", alignItems:"center", marginLeft:"2rem"}}>
+    <div>
       <TextField
-      variant='outlined'
+        variant="outlined"
         value={search}
         type="text"
         onChange={handleInput}
-        label='Search movie...'
-        style={{ maxWidth: "500px" }}
+        label="Search movie..."
+        style={{ width: "100%" }}
+        fullWidth={true}
         InputProps={{
           endAdornment: (
             <InputAdornment position="start">
-              <SearchIcon type="button" onClick={handleSearch} disabled={search.length < 3} style={{cursor:"pointer"}}/>
+              <SearchIcon
+                type="submit"
+                onClick={handleSearch}
+                style={{ cursor: "pointer" }}
+              />
             </InputAdornment>
           ),
         }}
-        
       />
     </div>
   );

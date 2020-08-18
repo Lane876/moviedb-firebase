@@ -16,10 +16,9 @@ const Header = ({ user }) => {
   return (
     <AppBar
       style={{
-        position: "sticky",
+        position: "relative",
         backgroundColor: "#f4f4f4",
         padding: ".5rem",
-        
       }}
       color="primary"
     >
@@ -32,24 +31,31 @@ const Header = ({ user }) => {
           marginLeft: "2rem",
           marginRight: "2rem",
         }}
+        className="header"
       >
         <div
           style={{
             display: "flex",
-            alignItems:"center"
+            alignItems: "center",
           }}
+          className="header"
         >
-          <a href='/'>
-            <img src={logo} width="35px" alt="logo" />
-            </a>
+          <a href="/">
+            <img src={logo} width="40px" alt="logo" />
+          </a>
           {user.user === null ? null : (
-            <Button style={{ fontWeight: "600", marginLeft: "2rem" }}>
+            <Button
+              style={{
+                fontWeight: "600",
+                marginLeft: "1rem",
+                marginRight: "1rem",
+              }}
+            >
               <Link
                 to="/favorite"
                 style={{
                   textDecoration: "none",
                   color: "black",
-                  marginRight: "1rem",
                 }}
               >
                 Favorite
@@ -58,20 +64,15 @@ const Header = ({ user }) => {
           )}
           <Search />
         </div>
-        
-        <div  style={{ display: "flex", alignItems: "center" }}>
+
+        <div style={{ display: "flex", alignItems: "center" }}>
           {user.user === null ? null : (
-            <Hidden xsDown>
             <Typography style={{ color: "black" }}>
               Hello, {user?.user?.displayName}
             </Typography>
-            </Hidden>
           )}
 
-          <Button
-            onClick={logout}
-            style={{ fontWeight: "600", marginLeft: "1rem" }}
-          >
+          <Button onClick={logout} style={{ fontWeight: "600" }}>
             {user.user === null ? "Sign In" : "Sign Out"}
           </Button>
         </div>

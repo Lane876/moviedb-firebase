@@ -6,11 +6,11 @@ import MainImage from "./MainImage";
 import GridPart from "./GridPart";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import {handleList} from '../redux/handleOpen/listAction'
-import CloseIcon from '@material-ui/icons/Close';
+import { handleList } from "../redux/handleOpen/listAction";
+import CloseIcon from "@material-ui/icons/Close";
 
 const Home = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const result = useSelector((state) => state.results.payload);
   const res = useSelector((state) => state.open.payload);
   const [movies, setMovies] = useState([]);
@@ -19,7 +19,6 @@ const Home = () => {
     const endPoint = `${API_URL}movie/popular?api_key=${API_KEY}&language=en-US&page=1`;
     fetchMovies(endPoint);
   }, []);
- 
 
   function fetchMovies(path) {
     fetch(path)
@@ -39,36 +38,53 @@ const Home = () => {
 
   return (
     <div>
-          {res && <div style={{display:"flex", flexWrap:"wrap", justifyContent:"center", marginLeft:"2rem", marginRight:"2rem", position:'relative'}}>
-            <Button style={{position:"absolute", top:"0", right:"1rem", }} onClick={()=> dispatch(handleList(false))}>
-              <CloseIcon style={{fontSize:"2rem"}} color='secondary'/>
-            </Button>
+      {res && result && result != "" && (
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "center",
+            margin: "3rem auto",
+            position: "relative",
+          }}
+        >
+          <Button
+            style={{ position: "absolute", top: "-2.5rem", right: "1rem" }}
+            onClick={() => dispatch(handleList(false))}
+          >
+            <CloseIcon style={{ fontSize: "2rem" }} color="secondary" />
+          </Button>
           {result?.map((movie, index) => (
-            <Link to={`/movie/${movie.id}`} style={{textDecoration:"none"}} key={index}>
-            <Paper
-              
-              style={{
-                display: "flex",
-                justifyContent: "flex-start",
-                alignItems: "center",
-                padding: ".5rem",
-                margin: "0.3rem",
-                width:"300px",
-                marginTop:"2rem",
-                
-    
-              }}
+            <Link
+              to={`/movie/${movie.id}`}
+              style={{ textDecoration: "none" }}
+              key={index}
             >
-              <img src={`${IMAGE_URL}w200${movie.poster_path}`} width="50px" style={{marginRight:"10px"}} alt='search poster' />
-              <div style={{display:"flex", flexDirection:"column"}}>
-
-              <Typography>{movie.original_title}</Typography>
-              <Typography>{movie.release_date}</Typography>
-              </div>
-            </Paper>
+              <Paper
+                style={{
+                  display: "flex",
+                  justifyContent: "flex-start",
+                  alignItems: "center",
+                  padding: ".3rem",
+                  margin: "0.3rem",
+                  width: "300px",
+                }}
+              >
+                <img
+                  src={`${IMAGE_URL}w200${movie.poster_path}`}
+                  width="50px"
+                  style={{ marginRight: "10px" }}
+                  alt="search poster"
+                />
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  <Typography>{movie.original_title}</Typography>
+                  <Typography>{movie.release_date}</Typography>
+                </div>
+              </Paper>
             </Link>
           ))}
-        </div>}
+        </div>
+      )}
 
       {movies[0] && (
         <MainImage
